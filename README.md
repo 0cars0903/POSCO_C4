@@ -11,5 +11,5 @@
 * EXERCISE3
 : 토양의 습도 조건에 따라 PUMP 제어
 
-* EXERCISE4
+* [EXERCISE4](https://github.com/0cars0903/POSCO_C4/commit/88dda9c1d39ddace7b7cad6574cedeee2d08a374)
 : 학습내용을 토대로 기본적인 IoT System 구현
