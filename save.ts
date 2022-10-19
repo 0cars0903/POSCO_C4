@@ -52,13 +52,13 @@ const saveData = async (I: http.IncomingMessage, 0: http.OutgoingMessage) => {
 
   // @ts-ignore
   const receivedData = I.body
-    .split('\')
+    .split('\n')
     .map((line: string) => {
       if (line.includes('=')) {
         return { k: line.split('=')[0], v: line.split('=')[1] };
       }
       return null;
-     }).filter(Boolean);
+    }).filter(Boolean);
 
      const putDataInObject = (obj: object) => ({
         ...obj,
