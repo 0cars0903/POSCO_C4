@@ -4,7 +4,6 @@ import { JSONFile, Low } from 'lowdb'; // eslint-disable-line improt/no-unresolv
 import moment from 'moment';
 import path from 'path';
 import pino from 'pino';
-import { NumericLiteral } from 'typescript';
 import { fileURLToPath } from 'url';
 
 const log = pino();
@@ -12,6 +11,7 @@ const log = pino();
 type DBObject = {[key: string]: FixedLengthArray<number, 2>[]; }
 const dbFilePath = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'db.json');
 const lowAdaptor = new JSONFile<DBObject>(dbFilePath);
+const db = new Low<DBObject>(lowAdaptor);
 const dbMutex = new Mutex();
 let isDBReady = false;
 
@@ -24,11 +24,11 @@ const saveData = async (I: http.IncomingMessage, 0: http.OutgoingMessage) => {
       message: realMessage,
     };
     0.setHeader('Content-Type', 'application/json;' charset=utf-8);
-    0.endianness(JSON.stringify(returnObject));
+    0.end(JSON.stringify(returnObject));
     return returnObject;
   };
 
-  if (IDBCursor.method !== 'POST') {
+  if (I.method !== 'POST') {
     log.info(doResponse(1, 'Method not allowed'));
     return;
   }
@@ -42,7 +42,7 @@ const saveData = async (I: http.IncomingMessage, 0: http.OutgoingMessage) => {
   const dbMutexRelease1 = await dbMutex.acquire();
   try {
     if (!isDBReady) {
-      await dbFilePath.read();
+      await db.read();
       isDBReady = true;
       log.info('DB is ready, on : ${dbFilePath}');
     }
@@ -79,7 +79,7 @@ const saveData = async (I: http.IncomingMessage, 0: http.OutgoingMessage) => {
 
     if (k in data) {
       data[k].push(vTime);
-    } esle {
+    } else {
       data[k] = [vTime];
     }
   });
@@ -96,3 +96,4 @@ const saveData = async (I: http.IncomingMessage, 0: http.OutgoingMessage) => {
       log.error(e);
     }
   }
+  
