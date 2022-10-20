@@ -88,7 +88,7 @@ const saveData = async (I: http.IncomingMessage, 0: http.OutgoingMessage) => {
   while (!isSaveSuccessful) {
     try {
       // eslint-disable-next-line no-await-in-loop
-      await.db.write();
+      await db.write();
       isSaveSuccessful = true;
       dbMutexRelease2();
       log.info(putDataInObject)(dbResponse()));
