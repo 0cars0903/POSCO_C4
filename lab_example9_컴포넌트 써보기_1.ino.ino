@@ -22,10 +22,13 @@ void setup() {
   pinMode(PUMP_PIN, OUTPUT);
   pinMode(LAMP_PIN, OUTPUT);
 
+  v.requestSubscription("config-fan")
   v.requestSubscription("config-light"); //주기적으로 config-light 정보를 받아와라. 받아오는 주기는 vegemite가 알아서
   v.requestSubscription("pump-water");
   v.requestSubscription("config-auto") // off: 0 on: 1
+
   int autoset = int(v.requestSubscription("config-auto"))
+  
   if autoset = 0  
     t.setInterval([]() {
       float humidity = dht.readHumidity();
@@ -43,7 +46,8 @@ void setup() {
     t.setInterval([]() {
       int pumpWater = int(v.recv("pump-water")); // v.receive
       int lightConf = int(v.recv("config-light")); //최근에 가장 마지막에 받아온 config-light 값을 저장
-
+      int fanSpeed = int(v.recv("config-fan"))
+      
       if (pumpWater == 1 && !currentPumpWorking) {
         currentPumpWorking = true;
         v.send("pump-water", 0);
@@ -55,8 +59,36 @@ void setup() {
       }
 
       digitalWrite(LAMP_PIN, lightConf==1 ? HIGH : LOW);
-    }, 500);
+      SoftPWM.set(fanSpeed)
+    
+  /// auto 1 자동
+  if autoset = 1  
+    t.setInterval([]() {
+      float humidity = dht.readHumidity();
+      float temperature = dht.readTemperature();
+      if (!isnan(humidity) && !isnan(temperature)) {
+        v.send("temperature", temperature);
+        v.send("humidity", humidity);
+      }
 
+      int soilMoist=map(analogRead(SOILMOIST_PIN), 0, 1023, 100, 0);
+      v.send("soilmoist", soilMoist);
+    }, 1000);
+
+    //2번
+    t.setInterval([]() {
+      int pumpWater = int(v.recv("pump-water")); // v.receive
+      int lightConf = int(v.recv("config-light")); //최근에 가장 마지막에 받아온 config-light 값을 저장
+      if humidity > 75 {
+        SoftPWM.set(fanSpeed)
+      }
+      if humidity < 60 {
+        digitalWrite(PUMP_PIN, HIGH);
+      }
+      if temperature < 25 {
+        digitalWrite(LAMP_PIN, HIGH);
+      }        
+    }, 500);
 }
 
 void loop() {
