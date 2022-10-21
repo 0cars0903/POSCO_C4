@@ -37,8 +37,8 @@ const Page: React.FC = function () {
         />
         <ConditionLight
           label="PUMP Condition"
-          dataID="pump-water"
-          coloringRule={(pump-water: number) => (pump-water = 1 ? '#df143c' : '#0080ff')} /// 조건문 true ? false :
+          dataID="pumpwater"
+          coloringRule={(pumpwater: number) => (pumpwater === 0 ? '#df143c' : '#0080ff')} /// 조건문 true ? false :
         />
         <ToggleSwitch label="LED" dataID="config-light" />
       </ControlGroup>
