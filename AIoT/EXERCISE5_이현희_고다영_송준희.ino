@@ -30,7 +30,6 @@ void setup() {
   v.requestSubscription("config-light"); 
   v.requestSubscription("config-fan");
   v.requestSubscription("pump-water");
-  v.requestSubscription("config-auto");
 
 //1번 코드
 //1초 간격으로 온/습도, 토양습도 정보를 받아옴
