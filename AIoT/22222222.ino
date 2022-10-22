@@ -51,27 +51,24 @@ void setup() {
     if(autoConf==1) {
       if(temperature < 25){ // 온도 25보다 높을 때, LED 켜짐
         digitalWrite(LAMP_PIN, HIGH);
-      }
-      else {
+      } else {
         digitalWrite(LAMP_PIN, LOW); // 온도 25 이하일 때, LED 꺼짐
       }
 
       if (humidity > 75) { // 습도가 75보다 높을 때, DC FAN: ON
         SoftPWM.set(100);
         delay(2000);
-      }
-      else { // 습도가 75 이하일 때, DC FAN: OFF
+      } else { // 습도가 75 이하일 때, DC FAN: OFF
         SoftPWM.set(0);
         delay(2000);
       }
 
       if (humidity < 60){ // 습도가 60보다 낮을 때, 펌프: ON
         digitalWrite(PUMP_PIN, HIGH);
-      }
-      else { //습도가 60 이상일 때, 펌프: OFF
+      } else { //습도가 60 이상일 때, 펌프: OFF
         digitalWrite(PUMP_PIN, LOW);
       }  
-    }  else {
+    } else {
       if (pumpWater == 1 && !currentPumpWorking) { //5초 동안 펌프 ON
         currentPumpWorking = true;
         v.send("pump-water", 0);
