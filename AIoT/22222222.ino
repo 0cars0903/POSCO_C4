@@ -16,7 +16,6 @@ Vegemite v;
 
 bool currentPumpWorking = false;
 
-
 void setup() {
   Serial.begin(250000);
   SoftPWM.begin(490);
@@ -72,30 +71,28 @@ void setup() {
       else { //습도가 60 이상일 때, 펌프: OFF
         digitalWrite(PUMP_PIN, LOW);
       }  
-  }
-  
-    else {
+    }  else {
       if (pumpWater == 1 && !currentPumpWorking) { //5초 동안 펌프 ON
-            currentPumpWorking = true;
-            v.send("pump-water", 0);
-            digitalWrite(PUMP_PIN, HIGH);
-            t.setTimeout([]() {
-              digitalWrite(PUMP_PIN, LOW);
-              currentPumpWorking = false;
-            }, 5000);
-          }
+        currentPumpWorking = true;
+        v.send("pump-water", 0);
+        digitalWrite(PUMP_PIN, HIGH);
+        t.setTimeout([]() {
+          digitalWrite(PUMP_PIN, LOW);
+          currentPumpWorking = false;
+        }, 5000);
+      }
 
-          digitalWrite(LAMP_PIN, lightConf==1? HIGH : LOW); // lightConf가 1이면 LED ON
-          // 0, 1, 2 3단계로 DC FAN 작동
-          if (fanSpeed==0) { // 0 단계일 때, DC FAN OFF
-            SoftPWM.set(0);}
-          else if (fanSpeed==1) { // 1 단계일 때, DC FAN 최저 속도
-            SoftPWM.set(70);}
-          else {
-            SoftPWM.set(100);} // 2 단계일 때, DC FAN 최고 속도
-            }
-            },1000);
-            }
+    digitalWrite(LAMP_PIN, lightConf==1? HIGH : LOW); // lightConf가 1이면 LED ON
+    // 0, 1, 2 3단계로 DC FAN 작동
+    if (fanSpeed==0) { // 0 단계일 때, DC FAN OFF
+      SoftPWM.set(0);
+    } else if (fanSpeed==1) { // 1 단계일 때, DC FAN 최저 속도
+      SoftPWM.set(70);
+    } else {
+      SoftPWM.set(100);} // 2 단계일 때, DC FAN 최고 속도
+    }
+  },1000);
+}
 
 
 void loop() {
