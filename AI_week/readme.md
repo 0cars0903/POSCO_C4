@@ -1,1 +1,6 @@
-
+## [1week](https://github.com/0cars0903/POSCO_C4/tree/main/AI_week/1week)
+## [2week](https://github.com/0cars0903/POSCO_C4/tree/main/AI_week/2week)
+## [3week](https://github.com/0cars0903/POSCO_C4/tree/main/AI_week/3_week)
+## [4week](https://github.com/0cars0903/POSCO_C4/tree/main/AI_week/4_week)
+## [5week](https://github.com/0cars0903/POSCO_C4/tree/main/AI_week/5_week)
+## [6week](https://github.com/0cars0903/POSCO_C4/tree/main/AI_week/6_week(AI_Project))
